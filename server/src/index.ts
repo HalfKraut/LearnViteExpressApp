@@ -1,6 +1,9 @@
-import express, { Request, Response } from "express";
 import { config } from "dotenv";
+config(); //Load Config for API
+
+import express, { Request, Response } from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 
 import Deck from "./models/Deck";
 
@@ -15,9 +18,12 @@ import Deck from "./models/Deck";
  */
 
 const PORT = 5000; //Set Test API port
-config(); //Load Config for API
+
+//Setup the express app for requests
 const app = express();
 
+//Setup API to allow cross origin requests.
+app.use(cors());
 //Setup middleware to allow support for JSON post requests.
 app.use(express.json());
 

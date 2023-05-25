@@ -1,33 +1,45 @@
-import { useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  //State for the Input box.
+  const [title, setTitle] = useState<string>("")
+
+  function handleCreateDeck(e: FormEvent) {
+    e.preventDefault() //Prevents default action of the form.
+    
+    /**
+     * Fetch is native to browsers. Allows us to call an API enpoint.
+     * Need to pass in some initial option to tell fetch the method 
+     * we are going to use. We also need to send the body of the 
+     * request as a string using JSON.stringify()
+     */
+    fetch('http://localhost:5000/decks', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title,
+      }), 
+    });
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className='App'>
+        <form onSubmit={handleCreateDeck}>
+          <label htmlFor='deck-title'>Deck Title: </label>
+          <input id='deck-title'
+            value={title}
+            onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+              setTitle(e.target.value)
+            }}
+          />
+          <button>Create Deck</button>
+        </form>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
