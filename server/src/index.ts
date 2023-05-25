@@ -14,8 +14,8 @@ import Deck from "./models/Deck";
  *
  */
 
-const PORT = 5000;
-
+const PORT = 5000; //Set Test API port
+config(); //Load Config for API
 const app = express();
 
 //Setup middleware to allow support for JSON post requests.
