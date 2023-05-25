@@ -1,0 +1,24 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Test Vite React App and Node.js server.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "",
+    "dev": "nodemon --watch \"src/**\" --ext \"ts,json\" ts-node --exec \"ts-node src/index.ts\""
+  },
+  "keywords": [],
+  "author": "Nick Nabours",
+  "license": "MIT",
+  "dependencies": {
+    "mongoose": "^7.2.0",
+    "server": "^1.0.38"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/mongoose": "^5.11.97",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1"
+  }
+}
