@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import { config } from "dotenv";
 import mongoose from "mongoose";
 
 import Deck from "./models/Deck";
@@ -40,14 +41,8 @@ app.post("/decks", async (req: Request, res: Response) => {
  * Connects to MongoDB setup for this API, then starts the server after the db
  * promise resolves.
  */
-mongoose
-    .connect(
-        "mongodb+srv://Halfkraut:jJoriHK0PLePqpSK@db-sandbox.03fwtxy.mongodb.net/?retryWrites=true&w=majority"
-    )
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log(
-                `Now Listening on Port: ${PORT}\nhttp://localhost:${PORT}`
-            );
-        });
+mongoose.connect(process.env.MONGO_URL!).then(() => {
+    app.listen(PORT, () => {
+        console.log(`Now Listening on Port: ${PORT}\nhttp://localhost:${PORT}`);
     });
+});
