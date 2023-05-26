@@ -31,6 +31,19 @@ app.get("/", (req: Request, res: Response) => {
     res.send("Hello World!");
 });
 
+app.get("/decks", async (req: Request, res: Response) => {
+    //TODO: Fetch all decks and send back to the user.
+    // 1. How to we fetch the decks from MongoDB?
+    const decks = await Deck.find();
+    // // You can put stuff in the Find() function to filter your query
+    // {
+    //     $where: //You put stuff here as a REGEX espression
+    // }
+    console.log(decks);
+    // 2. How do we send back the array to the UI?
+    res.json(decks);
+});
+
 app.post("/decks", async (req: Request, res: Response) => {
     console.log(req.body);
 

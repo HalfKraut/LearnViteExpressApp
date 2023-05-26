@@ -40,3 +40,41 @@
 .read-the-docs {
   color: #888;
 }
+
+.App {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.App form {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.decks {
+  display: grid;
+  width: 600px;
+  margin: 0 auto;
+  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  color: black;
+}
+
+.decks li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  height: 120px;
+  background: white;
+  border: 1px solid white;
+  border-radius: 5px;
+}
+
+.decks li:hover {
+  background-color: #eee;
+  cursor: pointer;
+}
