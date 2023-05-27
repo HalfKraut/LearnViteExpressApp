@@ -1,10 +1,8 @@
 import React, { FormEvent, useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import { Link } from 'react-router-dom';
 import { createDeck } from './api/createDeck';
-import { Deck, getDecks } from './api/getDecks';
+import { TDeck, getDecks } from './api/getDecks';
 import { deleteDeck } from './api/deleteDeck';
 
 
@@ -15,7 +13,7 @@ function App() {
   //State for the Input box.
   const [title, setTitle] = useState<string>("")
   //State for the array of decks to display to the user
-  const [decks, setDecks] = useState<Deck[]>([]);
+  const [decks, setDecks] = useState<TDeck[]>([]);
 
   async function handleCreateDeck(e: FormEvent) {
     e.preventDefault() //Prevents default action of the form.

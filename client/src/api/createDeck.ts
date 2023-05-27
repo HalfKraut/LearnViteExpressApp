@@ -1,5 +1,5 @@
 import { API_URL } from "./apiConfig";
-import { Deck } from "./getDecks";
+import { TDeck } from "./getDecks";
 
 /**
  * This function creates a new decks in the database.
@@ -7,7 +7,7 @@ import { Deck } from "./getDecks";
  * Best practice is to remove the "fetch" calls from your components
  * so we made this separate file for exporting this method.
  */
-export async function createDeck(title: string): Promise<Deck> {
+export async function createDeck(title: string): Promise<TDeck> {
     /**
      * Fetch is native to browsers. Allows us to call an API enpoint.
      * Need to pass in some initial option to tell fetch the method
