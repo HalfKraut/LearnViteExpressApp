@@ -1,4 +1,4 @@
-import { API_URL } from "./config";
+import { API_URL } from "./apiConfig";
 
 //Here we create the type for our decks and export it.
 export interface Deck {

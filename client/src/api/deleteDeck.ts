@@ -1,4 +1,4 @@
-import { API_URL } from "./config";
+import { API_URL } from "./apiConfig";
 import { Deck } from "./getDecks";
 
 /**
