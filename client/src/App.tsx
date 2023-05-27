@@ -3,11 +3,11 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { Link } from 'react-router-dom';
+import { createDeck } from './api/createDeck';
+import { Deck, getDecks } from './api/getDecks';
+import { deleteDeck } from './api/deleteDeck';
 
-interface Deck {
-  _id: number;
-  title: string;
-}
+
 
 
 function App() {
@@ -20,21 +20,10 @@ function App() {
   async function handleCreateDeck(e: FormEvent) {
     e.preventDefault() //Prevents default action of the form.
     
-    /**
-     * Fetch is native to browsers. Allows us to call an API enpoint.
-     * Need to pass in some initial option to tell fetch the method 
-     * we are going to use. We also need to send the body of the 
-     * request as a string using JSON.stringify()
-     */
-    const newDeck = await fetch("http://localhost:5000/decks", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title,
-      }), 
-    }).then( (response) => response.json());
+    //Call helper to get create a new deck with the specified title.
+    const newDeck = await createDeck(title);
 
-    setDecks([...decks, {title: newDeck.title, _id: newDeck._id}])
+    setDecks([...decks, newDeck]);
 
     setTitle("");
   }
@@ -42,9 +31,7 @@ function App() {
   async function handleDeleteDeck(deckId: number) {
     
     //Fetch your delete request to the API with the deckID added to the string
-    const deletedDeck = await fetch(`http://localhost:5000/decks/${deckId}`, {
-      method: "DELETE",
-    }).then( (response) => response.json())
+    const deletedDeck = await deleteDeck(deckId);
 
     //Filter to return an array of decks that do not have the ID we just deleted.
     setDecks(decks.filter(deck => deck._id !== deletedDeck._id))
@@ -75,16 +62,12 @@ function App() {
     //   fetch("url", {});
     // })();
 
+    //Define Function here to fetch all our decks.
     async function fetchDecks() {
-      //Fetch our list of deck from the API, one way to do it.
-      //const response = await fetch('http://localhost:5000/decks')
-      //const newDecks = response.json();
-      //setDecks(newDecks);
 
-      //Can also use promise chaining to format the json of the decks
-      const newDecks = await fetch('http://localhost:5000/decks').then(
-        (response) => response.json()
-      );
+      //Call helper to get all decks from the database.
+      const newDecks = await getDecks();
+      //Update our current array of decks.
       setDecks(newDecks);
     }
 
