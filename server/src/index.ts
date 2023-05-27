@@ -56,6 +56,16 @@ app.post("/decks", async (req: Request, res: Response) => {
     res.json(createdDeck);
 });
 
+app.delete("/decks/:deckId", async (req: Request, res) => {
+    // Todo:
+    // 1. Get the deck ID from the url
+    const deckId = req.params.deckId;
+    // 2. Delete the deck from mongo.
+    const deck = await Deck.findByIdAndDelete(deckId);
+    // 3. Return the deleted deck to the user who made the req
+    res.json(deck);
+});
+
 /**
  * Connects to MongoDB setup for this API, then starts the server after the db
  * promise resolves.

@@ -2,6 +2,7 @@ import React, { FormEvent, useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { Link } from 'react-router-dom';
 
 interface Deck {
   _id: number;
@@ -25,16 +26,40 @@ function App() {
      * we are going to use. We also need to send the body of the 
      * request as a string using JSON.stringify()
      */
-    await fetch('http://localhost:5000/decks', {
+    const newDeck = await fetch("http://localhost:5000/decks", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         title,
       }), 
-    });
+    }).then( (response) => response.json());
+
+    setDecks([...decks, {title: newDeck.title, _id: newDeck._id}])
+
     setTitle("");
   }
 
+  async function handleDeleteDeck(deckId: number) {
+    
+    //Fetch your delete request to the API with the deckID added to the string
+    const deletedDeck = await fetch(`http://localhost:5000/decks/${deckId}`, {
+      method: "DELETE",
+    }).then( (response) => response.json())
+
+    //Filter to return an array of decks that do not have the ID we just deleted.
+    setDecks(decks.filter(deck => deck._id !== deletedDeck._id))
+  }
+
+  /**
+   * Use effect loads a the beginning of the page or compnent's use. 
+   * This one loads the array of decks from the database to display 
+   * for the user.
+   * 
+   * Upon exiting or ending use of the component, the return function is
+   * called to allow you to cleanup the resources you were using in the 
+   * browser. Like clearing out an array of decks. Currently, this still
+   * needs to be setup.
+   */
   useEffect(() => {
     //When we originally load this component, the body of this function executes.
     console.log("We are loading things at the beginning")
@@ -80,7 +105,12 @@ function App() {
         <ul className="decks">
           {
             decks.map((deck) => (
-              <li key={deck._id}>{deck.title}</li>
+              <li key={deck._id}>
+                <button onClick={() => handleDeleteDeck(deck._id)}>X</button>
+                <Link to={`decks/${deck._id}`}>
+                  {deck.title}
+                </Link>
+              </li>
             ))
           }
         </ul>
