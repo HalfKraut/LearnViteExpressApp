@@ -7,6 +7,7 @@ import cors from "cors";
 import { getDecksController } from "./controllers/getDeckController";
 import { createDeckController } from "./controllers/createDeckController";
 import { deleteDeckController } from "./controllers/deleteDeckController";
+import { createCardForDeckController } from "./controllers/createCardForDeckController";
 
 /**
  * This is made based on the following youtube tutorial:
@@ -24,7 +25,11 @@ const PORT = process.env.PORT;
 const app = express();
 
 //Setup API to allow cross origin requests.
-app.use(cors());
+app.use(
+    cors({
+        origin: "*",
+    })
+);
 //Setup middleware to allow support for JSON post requests.
 app.use(express.json());
 
@@ -36,6 +41,9 @@ app.get("/", (req: Request, res: Response) => {
 app.get("/decks", getDecksController);
 app.post("/decks", createDeckController);
 app.delete("/decks/:deckId", deleteDeckController);
+
+//Request Routes and Controllers for Cards
+app.post("/decks/:deckId/cards", createCardForDeckController);
 
 /**
  * Connects to MongoDB setup for this API, then starts the server after the db

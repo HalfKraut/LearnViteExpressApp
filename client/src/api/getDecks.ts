@@ -4,6 +4,7 @@ import { API_URL } from "./apiConfig";
 export interface TDeck {
     _id: number;
     title: string;
+    cards: string[];
 }
 
 /**
