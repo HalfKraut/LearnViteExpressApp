@@ -1,12 +1,10 @@
 import React, { FormEvent, useEffect, useState } from 'react'
-import './App.css'
-import { Link, useParams } from 'react-router-dom';
-import { createDeck } from './api/createDeck';
-import { TDeck, getDecks } from './api/getDecks';
-import { deleteDeck } from './api/deleteDeck';
+import { useParams } from 'react-router-dom';
+import { TDeck} from './api/getDecks';
 import { createCard } from './api/createCard';
 import { getDeck } from './api/getDeck';
 import { deleteCard } from './api/deleteCard';
+import './Deck.css'
 
 
 export default function Deck() {
@@ -88,9 +86,9 @@ export default function Deck() {
 
     return (
         <>
-            <div className='App'>
+            <div className='Deck'>
 
-                <ul className="decks">
+                <ul className="cards">
                 {   
                     cards.map((card, index) => (
                     <li key={card}>
