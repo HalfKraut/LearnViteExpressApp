@@ -4,10 +4,12 @@ config(); //Load Config for API
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import { getDecksController } from "./controllers/getDeckController";
+import { getDecksController } from "./controllers/getDecksController";
 import { createDeckController } from "./controllers/createDeckController";
 import { deleteDeckController } from "./controllers/deleteDeckController";
 import { createCardForDeckController } from "./controllers/createCardForDeckController";
+import { getDeckController } from "./controllers/getDeckController";
+import { deleteCardOnDeckController } from "./controllers/deleteCardOnDeckController";
 
 /**
  * This is made based on the following youtube tutorial:
@@ -43,7 +45,9 @@ app.post("/decks", createDeckController);
 app.delete("/decks/:deckId", deleteDeckController);
 
 //Request Routes and Controllers for Cards
+app.get("/decks/:deckId", getDeckController);
 app.post("/decks/:deckId/cards", createCardForDeckController);
+app.delete("/decks/:deckId/cards/:index", deleteCardOnDeckController);
 
 /**
  * Connects to MongoDB setup for this API, then starts the server after the db

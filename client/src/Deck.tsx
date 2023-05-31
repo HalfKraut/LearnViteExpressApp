@@ -5,6 +5,8 @@ import { createDeck } from './api/createDeck';
 import { TDeck, getDecks } from './api/getDecks';
 import { deleteDeck } from './api/deleteDeck';
 import { createCard } from './api/createCard';
+import { getDeck } from './api/getDeck';
+import { deleteCard } from './api/deleteCard';
 
 
 export default function Deck() {
@@ -12,9 +14,10 @@ export default function Deck() {
     //Use Params lets us get params from the url link
     const { deckId } = useParams();
 
+    const [deck, setDeck] = useState<TDeck | undefined>();
+    const [cards, setCards] = useState<string[]>([]);
     //State for the Input box.
-    const [text, setText] = useState<string>("")
-    const [cards, setCards] = useState<string[]>([])
+    const [text, setText] = useState<string>("");
 
 
     async function handleCreateDeck(e: FormEvent) {
@@ -28,14 +31,17 @@ export default function Deck() {
         setText("");
     }
 
-//   async function handleDeleteDeck(deckId: number) {
+  async function handleDeleteCard(index: number) {
     
-//     //Fetch your delete request to the API with the deckID added to the string
-//     const deletedDeck = await deleteDeck(deckId);
+    if (!deckId) return;
+    //Fetch your delete request to the API with the deckID and the index to delete
+    const updatedDeck = await deleteCard(deckId, index);
 
-//     //Filter to return an array of decks that do not have the ID we just deleted.
-//     setDecks(decks.filter(deck => deck._id !== deletedDeck._id))
-//   }
+    //Set your deck to the updated version of the deck returned.
+    setDeck(updatedDeck);
+    //Update the card returned with the deck
+    setCards(updatedDeck.cards);
+  }
 
   /**
    * Use effect loads a the beginning of the page or compnent's use. 
@@ -47,41 +53,48 @@ export default function Deck() {
    * browser. Like clearing out an array of decks. Currently, this still
    * needs to be setup.
    */
-//   useEffect(() => {
-//     //When we originally load this component, the body of this function executes.
-//     console.log("We are loading things at the beginning")
+  useEffect(() => {
+    
+      
+      //When we originally load this component, the body of this function executes.
+      console.log("We are loading the cards in the deck.")
+      
+      //Define Function here to fetch all our decks.
+      async function fetchDeck() {
+        
+        //Check if deck already is loaded first
+        if (!deckId) {
+            return;
+        }
 
-//     //Define Function here to fetch all our decks.
-//     async function fetchDecks() {
+        //Call helper to get the url deckId deck from the database.
+        const newDeck = await getDeck(deckId);
+        //Update our current array of decks.
+        if (newDeck) {
+            setDeck(newDeck);
+            setCards(newDeck.cards);
+        }
+    }
 
-//       //Call helper to get all decks from the database.
-//       const newDecks = await getDecks();
-//       //Update our current array of decks.
-//       setDecks(newDecks);
-//     }
+    //Call fetchDecks()
+    fetchDeck();
 
-//     //Call fetchDecks()
-//     fetchDecks();
-
-//     //When we are no longer displaying this component, this cleanup function is called
-//     //This is an optional function
-//     return () => {
-//       console.log("We are cleaning up things on exit")
-//     }
-//   }, []) 
+    //When we are no longer displaying this component, this cleanup function is called
+    //This is an optional function
+    return () => {
+      console.log("We are cleaning up things on exiting the deck.")
+    }
+  }, [deckId]) 
 
     return (
         <>
             <div className='App'>
 
                 <ul className="decks">
-                {
-                    cards.map((card) => (
+                {   
+                    cards.map((card, index) => (
                     <li key={card}>
-                        {/* <button onClick={() => handleDeleteDeck(deck._id)}>X</button>
-                        <Link to={`decks/${deck._id}`}>
-                        {card}
-                        </Link> */}
+                        <button onClick={() => handleDeleteCard(index)}>X</button>
                         {card}
                     </li>
                     ))
