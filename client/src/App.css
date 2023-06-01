@@ -1,9 +1,9 @@
-#root {
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
+} */
 
 .logo {
   height: 6em;
@@ -52,6 +52,11 @@
   gap: 10px;
   justify-content: center;
   align-items: center;
+}
+
+.App h1 {
+  font-size: 32px;
+  text-align: center;
 }
 
 .decks {
