@@ -4,6 +4,7 @@ config(); //Load Config for API
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import path from "path";
 import { getDecksController } from "./controllers/getDecksController";
 import { createDeckController } from "./controllers/createDeckController";
 import { deleteDeckController } from "./controllers/deleteDeckController";
@@ -34,6 +35,8 @@ app.use(
 );
 //Setup middleware to allow support for JSON post requests.
 app.use(express.json());
+
+app.use(express.static(path.join(__dirname, "../../client/dist")));
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Hello World!");
