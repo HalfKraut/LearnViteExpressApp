@@ -85,6 +85,12 @@
   font-size: 10px;
   top: 5px;
   right: 5px;
+
+}
+
+.decks li button:focus,
+.decks li button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
 }
 
 .decks li:hover {
